@@ -1,4 +1,4 @@
-﻿namespace MyPetsHealthHubApi.Models
+﻿namespace MyPetsHealthHubApi.Models.RequestModels
 {
     public class LoginModel
     {

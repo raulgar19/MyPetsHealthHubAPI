@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyPetsHealthHubApi.Models;
+using MyPetsHealthHubApi.Models.RequestModels;
 using MyPetsHealthHubApi.Services.Interfaces;
 
 namespace MyPetsHealthHubApi.Controllers
@@ -21,7 +22,7 @@ namespace MyPetsHealthHubApi.Controllers
         public async Task<ActionResult<Wallet>> GetWalletByUserId(int id)
         {
             AppUser user = await _appUserService.GetUserById(id);
-            
+
             if (user == null)
             {
                 return NotFound();
@@ -33,14 +34,14 @@ namespace MyPetsHealthHubApi.Controllers
         }
 
         [HttpPut("addAmount/{id}")]
-        public async Task<ActionResult<Wallet>> AddAmount(int id, [FromBody] decimal amount)
+        public async Task<ActionResult<Wallet>> AddAmount(int id, [FromBody] WalletAmount walletAmount)
         {
             if (id <= 0)
             {
                 return BadRequest("Invalid wallet ID.");
             }
 
-            if (amount <= 0)
+            if (walletAmount.Amount <= 0)
             {
                 return BadRequest("Amount must be greater than zero.");
             }
@@ -51,7 +52,7 @@ namespace MyPetsHealthHubApi.Controllers
                 return NotFound($"Wallet with ID {id} not found.");
             }
 
-            wallet.Balance += amount;
+            wallet.Balance += walletAmount.Amount;
 
             try
             {
@@ -64,6 +65,5 @@ namespace MyPetsHealthHubApi.Controllers
 
             return Ok(wallet);
         }
-
     }
 }

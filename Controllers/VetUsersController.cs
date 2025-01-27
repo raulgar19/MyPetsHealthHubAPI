@@ -1,6 +1,7 @@
 ﻿using MyPetsHealthHubApi.Models;
 using MyPetsHealthHubApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using MyPetsHealthHubApi.Models.RequestModels;
 
 namespace MyPetsHealthHubApi.Controllers
 {
