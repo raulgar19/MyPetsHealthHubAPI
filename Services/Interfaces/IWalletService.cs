@@ -4,6 +4,7 @@ namespace MyPetsHealthHubApi.Services.Interfaces
 {
     public interface IWalletService
     {
-        Task<Wallet> GetWalletByUserId(int walletId);
+        Task<Wallet> GetWalletById(int id);
+        Task UpdateWallet(Wallet wallet);
     }
 }
