@@ -23,6 +23,10 @@ builder.Services.AddScoped<IAppUserRepository, AppUserRepository>();
 builder.Services.AddScoped<IAppUserService, AppUserService>();
 builder.Services.AddScoped<IVetUserRepository, VetUserRepository>();
 builder.Services.AddScoped<IVetUserService, VetUserService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IWalletRepository, WalletRepository>();
+builder.Services.AddScoped<IWalletService, WalletService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {

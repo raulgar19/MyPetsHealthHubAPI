@@ -14,6 +14,11 @@ namespace MyPetsHealthHubApi.Repositories
             _context = context;
         }
 
+        public async Task<AppUser> GetUserById(int id)
+        {
+            return await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == id);
+        }
+
         public async Task<AppUser> UserLogin(string email, string password)
         {
             return await _context.AppUsers.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
