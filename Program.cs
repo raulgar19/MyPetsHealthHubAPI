@@ -27,6 +27,12 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IWalletRepository, WalletRepository>();
 builder.Services.AddScoped<IWalletService, WalletService>();
+builder.Services.AddScoped<IVetRepository, VetRepository>();
+builder.Services.AddScoped<IVetService, VetService>();
+builder.Services.AddScoped<IGroomingRepository, GroomingRepository>();
+builder.Services.AddScoped<IGroomingService, GroomingService>();
+builder.Services.AddScoped<IEmergencyRepository, EmergencyRepository>();
+builder.Services.AddScoped<IEmergencyService, EmergencyService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
