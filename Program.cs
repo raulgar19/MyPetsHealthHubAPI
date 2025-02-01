@@ -35,6 +35,8 @@ builder.Services.AddScoped<IEmergencyRepository, EmergencyRepository>();
 builder.Services.AddScoped<IEmergencyService, EmergencyService>();
 builder.Services.AddScoped<IPetRepository, PetRepository>();
 builder.Services.AddScoped<IPetService, PetService>();
+builder.Services.AddScoped<IScheduledQueryRepository, ScheduledQueryRepository>();
+builder.Services.AddScoped<IScheduledQueryService, ScheduledQueryService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
