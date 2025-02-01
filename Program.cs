@@ -33,6 +33,8 @@ builder.Services.AddScoped<IGroomingRepository, GroomingRepository>();
 builder.Services.AddScoped<IGroomingService, GroomingService>();
 builder.Services.AddScoped<IEmergencyRepository, EmergencyRepository>();
 builder.Services.AddScoped<IEmergencyService, EmergencyService>();
+builder.Services.AddScoped<IPetRepository, PetRepository>();
+builder.Services.AddScoped<IPetService, PetService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {

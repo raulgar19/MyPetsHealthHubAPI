@@ -10,7 +10,7 @@
         public DateTime Birthday { get; set; }
         public decimal Weight { get; set; }
         public string Gender { get; set; }
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
         public DateTime? LastVaccination { get; set; }
         public int? PetCardId { get; set; }
         public PetCard PetCard { get; set; }

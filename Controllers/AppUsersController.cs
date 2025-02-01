@@ -37,5 +37,16 @@ namespace MyPetsHealthHubApi.Controllers
             }
             return Ok(appUser);
         }
+
+        [HttpGet("getByVetId/{id}")]
+        public async Task<ActionResult<List<AppUser>>> GetUserByVetId(int id)
+        {
+            List<AppUser> appUsers = await _appUserService.GetUsersByVetId(id);
+            if (appUsers == null)
+            {
+                return NotFound();
+            }
+            return Ok(appUsers);
+        }
     }
 }
