@@ -17,7 +17,12 @@ namespace MyPetsHealthHubApi.Repositories
 
         public async Task<List<ScheduledQuery>> GetScheduledQueriesByVetId(int id)
         {
-            return await _context.ScheduledQueries.Where(s => s.VetId == id).ToListAsync();
+            DateTime now = DateTime.Now;
+
+            return await _context.ScheduledQueries
+                .Where(s => s.VetId == id &&
+                    (s.Date.Date > now.Date || (s.Date.Date == now.Date && s.Hour >= now.TimeOfDay)))
+                .ToListAsync();
         }
     }
 }

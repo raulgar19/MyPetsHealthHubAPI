@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyPetsHealthHubApi.Models;
+﻿using MyPetsHealthHubApi.Models;
 
 namespace MyPetsHealthHubApi.Repositories.Interfaces
 {
