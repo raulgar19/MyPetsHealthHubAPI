@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MyPetsHealthHubApi.Data.MyPetsHealthHubApi.Data;
 using MyPetsHealthHubApi.Models;
 using MyPetsHealthHubApi.Repositories.Interfaces;
@@ -22,6 +21,8 @@ namespace MyPetsHealthHubApi.Repositories
             return await _context.ScheduledQueries
                 .Where(s => s.VetId == id &&
                     (s.Date.Date > now.Date || (s.Date.Date == now.Date && s.Hour >= now.TimeOfDay)))
+                .Include(s => s.Pet)
+                .ThenInclude(p => p.AppUser)
                 .ToListAsync();
         }
     }
