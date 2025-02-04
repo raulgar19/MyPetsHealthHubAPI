@@ -17,6 +17,19 @@ namespace MyPetsHealthHubApi.Controllers
             _petService = petService;
         }
 
+        [HttpGet("getById/{id}")]
+        public async Task<ActionResult<Pet>> GetPetsById(int id)
+        {
+            var pet = await _petService.GetPetById(id);
+
+            if (pet == null)
+            {
+                return NotFound(new { message = "No se encontraron mascotas para el identificador especificado." });
+            }
+
+            return Ok(pet);
+        }
+
         [HttpGet("getByVetId/{id}")]
         public async Task<ActionResult<List<Pet>>> GetPetsByVetId(int id)
         {
@@ -37,7 +50,7 @@ namespace MyPetsHealthHubApi.Controllers
 
             if (pets == null || pets.Count == 0)
             {
-                return NotFound(new { message = "No se encontraron mascotas para el veterinario especificado." });
+                return NotFound(new { message = "No se encontraron mascotas para el usuario especificado." });
             }
 
             return Ok(pets);
