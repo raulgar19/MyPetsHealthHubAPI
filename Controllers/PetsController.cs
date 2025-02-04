@@ -29,5 +29,18 @@ namespace MyPetsHealthHubApi.Controllers
 
             return Ok(pets);
         }
+
+        [HttpGet("getByUserId/{id}")]
+        public async Task<ActionResult<List<Pet>>> GetByUserId(int id)
+        {
+            var pets = await _petService.GetPetsByUserId(id);
+
+            if (pets == null || pets.Count == 0)
+            {
+                return NotFound(new { message = "No se encontraron mascotas para el veterinario especificado." });
+            }
+
+            return Ok(pets);
+        }
     }
 }

@@ -14,6 +14,11 @@ namespace MyPetsHealthHubApi.Repositories
             _context = context;
         }
 
+        public Task<List<Pet>> GetPetsByUserId(int id)
+        {
+            return _context.Pets.Where(p => p.AppUserId == id).ToListAsync();
+        }
+
         public async Task<List<Pet>> GetPetsByVetId(int id)
         {
             return await _context.Pets.Where(p => p.VetId == id).ToListAsync();
