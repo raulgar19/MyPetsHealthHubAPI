@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyPetsHealthHubApi.Data.MyPetsHealthHubApi.Data;
+using MyPetsHealthHubApi.Data;
 using MyPetsHealthHubApi.Models;
 using MyPetsHealthHubApi.Repositories.Interfaces;
 

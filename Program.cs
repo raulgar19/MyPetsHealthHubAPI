@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using MyPetsHealthHubApi.Data.MyPetsHealthHubApi.Data;
+using MyPetsHealthHubApi.Data;
 using MyPetsHealthHubApi.Repositories;
 using MyPetsHealthHubApi.Repositories.Interfaces;
 using MyPetsHealthHubApi.Services;
@@ -37,6 +37,8 @@ builder.Services.AddScoped<IPetRepository, PetRepository>();
 builder.Services.AddScoped<IPetService, PetService>();
 builder.Services.AddScoped<IScheduledQueryRepository, ScheduledQueryRepository>();
 builder.Services.AddScoped<IScheduledQueryService, ScheduledQueryService>();
+builder.Services.AddScoped<IPetCardRepository, PetCardRepository>();
+builder.Services.AddScoped<IPetCardService, PetCardService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {

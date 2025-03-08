@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using MyPetsHealthHubApi.Models;
-using MyPetsHealthHubApi.Services;
+using MyPetsHealthHubApi.Models.RequestModels;
 using MyPetsHealthHubApi.Services.Interfaces;
 
 namespace MyPetsHealthHubApi.Controllers
@@ -11,10 +11,52 @@ namespace MyPetsHealthHubApi.Controllers
     public class PetsController : ControllerBase
     {
         private readonly IPetService _petService;
+        private readonly IPetCardService _petCardService;
+        private readonly IAppUserService _appUserService;
 
-        public PetsController(IPetService petService)
+        public PetsController(IPetService petService, IPetCardService petCardService, IAppUserService appUserService)
         {
             _petService = petService;
+            _petCardService = petCardService;
+            _appUserService = appUserService;
+        }
+
+        [HttpPost("addPet")]
+        public async Task<ActionResult<Pet>> AddPet([FromBody] RegisterPetModel petRegisterModel)
+        {
+            if (petRegisterModel == null)
+            {
+                return BadRequest(new { message = "No se recibieron datos para agregar la mascota." });
+            }
+
+            PetCard petCard = new PetCard
+            {
+                QrCode = petRegisterModel.Chip
+            };
+
+            PetCard newPetCard = await _petCardService.AddPetCard(petCard);
+
+            Vet vet = await _appUserService.GetVetByUserId(petRegisterModel.UserId);
+
+            Pet pet = new Pet
+            {
+                Chip = petRegisterModel.Chip,
+                Name = petRegisterModel.Name,
+                Species = petRegisterModel.Species,
+                Breed = petRegisterModel.Breed,
+                Birthday = petRegisterModel.Birthday,
+                Weight = petRegisterModel.Weight,
+                Gender = petRegisterModel.Gender,
+                Notes = petRegisterModel.Notes,
+                LastVaccination = petRegisterModel.LastVaccination,
+                PetCardId = newPetCard.Id,
+                AppUserId = petRegisterModel.UserId,
+                VetId = vet.Id,
+            };
+
+                await _petService.AddPet(pet);
+            
+            return Ok();
         }
 
         [HttpGet("getById/{id}")]

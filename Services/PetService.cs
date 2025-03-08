@@ -13,6 +13,11 @@ namespace MyPetsHealthHubApi.Services
             _petRepository = petRepository;
         }
 
+        public async Task AddPet(Pet pet)
+        {
+            await _petRepository.AddPet(pet);
+        }
+
         public async Task<Pet> GetPetById(int id)
         {
             return await _petRepository.GetPetById(id);

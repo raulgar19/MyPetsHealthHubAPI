@@ -1,4 +1,5 @@
 ﻿using MyPetsHealthHubApi.Models;
+using MyPetsHealthHubApi.Models.RequestModels;
 using MyPetsHealthHubApi.Repositories.Interfaces;
 using MyPetsHealthHubApi.Services.Interfaces;
 
@@ -13,6 +14,11 @@ namespace MyPetsHealthHubApi.Services
             _appUserRepository = appUserRepository;
         }
 
+        public async Task CreateUser(AppUser user)
+        {
+            await _appUserRepository.CreateUser(user);
+        }
+
         public async Task<AppUser> GetUserById(int id)
         {
             return await _appUserRepository.GetUserById(id);
@@ -23,9 +29,14 @@ namespace MyPetsHealthHubApi.Services
             return await _appUserRepository.GetUsersByVetId(id);
         }
 
-        public async Task<AppUser> UserLogin(string email, string password)
+        public async Task<AppUser> GetUserByEmail(string email)
         {
-            return await _appUserRepository.UserLogin(email, password);
+            return await _appUserRepository.GetUserByEmail(email);
+        }
+
+        public async Task<Vet> GetVetByUserId(int userId)
+        {
+            return await _appUserRepository.GetVetByUserId(userId);
         }
     }
 

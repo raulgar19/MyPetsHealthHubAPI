@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyPetsHealthHubApi.Models;
+using MyPetsHealthHubApi.Models.RequestModels;
 using MyPetsHealthHubApi.Services.Interfaces;
 
 namespace MyPetsHealthHubApi.Controllers
@@ -13,6 +14,30 @@ namespace MyPetsHealthHubApi.Controllers
         public ScheduledQueriesController(IScheduledQueryService scheduledQueryService)
         {
             _scheduledQueryService = scheduledQueryService;
+        }
+
+        [HttpPost("addQuery")]
+        public async Task<IActionResult> AddScheduledQuery([FromBody] RegisterQueryModel registerQueryModel)
+        {
+            if (registerQueryModel.PetId <= 0 || registerQueryModel.VetId <= 0)
+            {
+                return BadRequest(new { message = "El ID de la mascota y del veterinario son obligatorios." });
+            }
+
+            ScheduledQuery scheduledQuery = new ScheduledQuery
+            {
+                Date = registerQueryModel.Date,
+                Hour = registerQueryModel.Hour,
+                Purpose = registerQueryModel.Purpose,
+                RequiredActions = registerQueryModel.RequiredActions,
+                PreviewInstructions = registerQueryModel.PreviewInstructions,
+                FollowUpActions = registerQueryModel.FollowUpActions,
+                VetId = registerQueryModel.VetId,
+                PetId = registerQueryModel.PetId
+            };
+
+            await _scheduledQueryService.AddScheduledQuery(scheduledQuery);
+            return Ok();
         }
 
         [HttpGet("getByVetId/{id}")]

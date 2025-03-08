@@ -1,4 +1,5 @@
 ﻿using MyPetsHealthHubApi.Models;
+using MyPetsHealthHubApi.Models.RequestModels;
 
 namespace MyPetsHealthHubApi.Services.Interfaces
 {
@@ -6,6 +7,8 @@ namespace MyPetsHealthHubApi.Services.Interfaces
     {
         Task<AppUser> GetUserById(int id);
         Task<List<AppUser>> GetUsersByVetId(int id);
-        Task<AppUser> UserLogin(string email, string password);
+        Task<AppUser> GetUserByEmail(string email);
+        Task CreateUser(AppUser user);
+        Task<Vet> GetVetByUserId(int userId);
     }
 }

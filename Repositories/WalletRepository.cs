@@ -1,6 +1,7 @@
-﻿using MyPetsHealthHubApi.Data.MyPetsHealthHubApi.Data;
+﻿using MyPetsHealthHubApi.Data;
 using MyPetsHealthHubApi.Models;
 using MyPetsHealthHubApi.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyPetsHealthHubApi.Repositories
 {
@@ -13,9 +14,16 @@ namespace MyPetsHealthHubApi.Repositories
             _context = context;
         }
 
+        public async Task<Wallet> CreateWallet(Wallet wallet)
+        {
+            _context.Wallets.AddAsync(wallet);
+            await _context.SaveChangesAsync();
+            return wallet;
+        }
+
         public async Task<Wallet> GetWalletById(int id)
         {
-            return _context.Wallets.FirstOrDefault(w => w.Id == id);
+            return await _context.Wallets.FirstOrDefaultAsync(w => w.Id == id);
         }
 
         public async Task UpdateWalletAsync(Wallet wallet)

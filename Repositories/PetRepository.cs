@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyPetsHealthHubApi.Data.MyPetsHealthHubApi.Data;
+using MyPetsHealthHubApi.Data;
 using MyPetsHealthHubApi.Models;
 using MyPetsHealthHubApi.Repositories.Interfaces;
 
@@ -12,6 +12,12 @@ namespace MyPetsHealthHubApi.Repositories
         public PetRepository(AppDbContext context)
         {
             _context = context;
+        }
+
+        public async Task AddPet(Pet pet)
+        {
+            _context.Pets.AddAsync(pet);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<Pet> GetPetById(int id)
