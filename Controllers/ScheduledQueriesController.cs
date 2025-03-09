@@ -17,7 +17,7 @@ namespace MyPetsHealthHubApi.Controllers
         }
 
         [HttpPost("addQuery")]
-        public async Task<IActionResult> AddScheduledQuery([FromBody] RegisterQueryModel registerQueryModel)
+        public async Task<ActionResult> AddScheduledQuery([FromBody] RegisterQueryModel registerQueryModel)
         {
             if (registerQueryModel.PetId <= 0 || registerQueryModel.VetId <= 0)
             {
@@ -51,6 +51,26 @@ namespace MyPetsHealthHubApi.Controllers
             }
 
             return Ok(scheduledQueries);
+        }
+
+        [HttpGet("getPetQueries")]
+        public async Task<ActionResult<List<ScheduledQuery>>> GetPetQueries([FromQuery] int petId, [FromQuery] int vetId)
+        {
+            List<ScheduledQuery> scheduledQueries = await _scheduledQueryService.GetScheduledQueriesByVetAndPetId(petId, vetId);
+            if (scheduledQueries == null || scheduledQueries.Count == 0)
+            {
+                return NotFound(new { message = "No se encontraron consultas para la mascota especificada." });
+            }
+            return Ok(scheduledQueries);
+        }
+
+        [HttpDelete("removeQuery/{id}")]
+        public async Task<ActionResult> RemoveQuery(int id)
+        {
+            ScheduledQuery query = await _scheduledQueryService.GetScheduledQueryById(id);
+
+            await _scheduledQueryService.RemoveScheduledQuery(query);
+            return Ok();
         }
     }
 }
