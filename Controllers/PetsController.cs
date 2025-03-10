@@ -29,13 +29,17 @@ namespace MyPetsHealthHubApi.Controllers
                 return BadRequest(new { message = "No se recibieron datos para agregar la mascota." });
             }
 
+            string lastRegisterStr = await _petCardService.GetLastRegisterNumber();
+            int lastRegisterNumber = int.TryParse(lastRegisterStr, out int parsedNumber) ? parsedNumber : 0;
+            string newRegisterNumber = (lastRegisterNumber + 1).ToString("D10");
+
             PetCard petCard = new PetCard
             {
-                QrCode = petRegisterModel.Chip
+                QrCode = petRegisterModel.Chip,
+                Register = newRegisterNumber,
             };
 
             PetCard newPetCard = await _petCardService.AddPetCard(petCard);
-
             Vet vet = await _appUserService.GetVetByUserId(petRegisterModel.UserId);
 
             Pet pet = new Pet
@@ -54,8 +58,8 @@ namespace MyPetsHealthHubApi.Controllers
                 VetId = vet.Id,
             };
 
-                await _petService.AddPet(pet);
-            
+            await _petService.AddPet(pet);
+
             return Ok();
         }
 
@@ -96,6 +100,25 @@ namespace MyPetsHealthHubApi.Controllers
             }
 
             return Ok(pets);
+        }
+
+        [HttpDelete("deletePet/{id}")]
+        public async Task<ActionResult> DeletePet(int id)
+        {
+            Pet pet = await _petService.GetPetById(id);
+
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            PetCard petCard = pet.PetCard;
+
+            await _petService.DeletePet(pet);
+
+            await _petCardService.DeletePetCard(petCard);
+
+            return Ok();
         }
     }
 }

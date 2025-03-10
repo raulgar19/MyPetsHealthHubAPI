@@ -32,5 +32,10 @@ namespace MyPetsHealthHubApi.Services
         {
             return await _petRepository.GetPetsByVetId(id);
         }
+
+        public async Task DeletePet(Pet pet)
+        {
+            await _petRepository.DeletePet(pet);
+        }
     }
 }

@@ -22,17 +22,23 @@ namespace MyPetsHealthHubApi.Repositories
 
         public async Task<Pet> GetPetById(int id)
         {
-            return await _context.Pets.FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Pets.Include(p => p.PetCard).FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public Task<List<Pet>> GetPetsByUserId(int id)
+        public async Task<List<Pet>> GetPetsByUserId(int id)
         {
-            return _context.Pets.Where(p => p.AppUserId == id).ToListAsync();
+            return await _context.Pets.Where(p => p.AppUserId == id).Include(p => p.PetCard).ToListAsync();
         }
 
         public async Task<List<Pet>> GetPetsByVetId(int id)
         {
             return await _context.Pets.Where(p => p.VetId == id).ToListAsync();
+        }
+
+        public async Task DeletePet(Pet pet)
+        {
+            _context.Pets.Remove(pet);
+            await _context.SaveChangesAsync();
         }
     }
 }
