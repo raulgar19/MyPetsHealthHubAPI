@@ -18,19 +18,17 @@ namespace MyPetsHealthHubApi.Controllers
             _appUserService = appUserService;
         }
 
-        [HttpGet("walletByUserId/{id}")]
+        [HttpGet("getWalletByUserId/{id}")]
         public async Task<ActionResult<Wallet>> GetWalletByUserId(int id)
         {
-            AppUser user = await _appUserService.GetUserById(id);
+            Wallet wallet = await _walletService.GetWalletByUserId(id);
 
-            if (user == null)
+            if (wallet == null)
             {
-                return NotFound();
+                return NotFound($"Wallet with ID {id} not found.");
             }
 
-            Wallet wallet = await _walletService.GetWalletById(user.WalletId.Value);
-
-            return wallet;
+            return Ok(wallet);
         }
 
         [HttpPut("addAmount/{userId}")]
