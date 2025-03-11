@@ -26,6 +26,11 @@ namespace MyPetsHealthHubApi.Repositories
             return await _context.Wallets.FirstOrDefaultAsync(w => w.Id == id);
         }
 
+        public async Task<Wallet> GetWalletByUserId(int id)
+        {
+            return await _context.AppUsers.Where(a => a.Id == id).Select(a => a.Wallet).FirstOrDefaultAsync();
+        }
+
         public async Task UpdateWalletAsync(Wallet wallet)
         {
             _context.Wallets.Update(wallet);

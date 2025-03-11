@@ -23,6 +23,11 @@ namespace MyPetsHealthHubApi.Services
             return await _walletRepository.GetWalletById(id);
         }
 
+        public async Task<Wallet> GetWalletByUserId(int id)
+        {
+            return await _walletRepository.GetWalletByUserId(id);
+        }
+
         public async Task UpdateWallet(Wallet wallet)
         {
             await _walletRepository.UpdateWalletAsync(wallet);

@@ -6,6 +6,7 @@ namespace MyPetsHealthHubApi.Repositories.Interfaces
     {
         Task<Wallet> CreateWallet(Wallet wallet);
         Task<Wallet> GetWalletById(int id);
+        Task<Wallet> GetWalletByUserId(int id);
         Task UpdateWalletAsync(Wallet wallet);
     }
 }

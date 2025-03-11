@@ -33,10 +33,10 @@ namespace MyPetsHealthHubApi.Controllers
             return wallet;
         }
 
-        [HttpPut("addAmount/{id}")]
-        public async Task<ActionResult<Wallet>> AddAmount(int id, [FromBody] WalletAmount walletAmount)
+        [HttpPut("addAmount/{userId}")]
+        public async Task<ActionResult<Wallet>> AddAmount(int userId, [FromBody] WalletAmount walletAmount)
         {
-            if (id <= 0)
+            if (userId <= 0)
             {
                 return BadRequest("Invalid wallet ID.");
             }
@@ -46,10 +46,10 @@ namespace MyPetsHealthHubApi.Controllers
                 return BadRequest("Amount must be greater than zero.");
             }
 
-            var wallet = await _walletService.GetWalletById(id);
+            Wallet wallet = await _walletService.GetWalletByUserId(userId);
             if (wallet == null)
             {
-                return NotFound($"Wallet with ID {id} not found.");
+                return NotFound($"AppUser with ID {userId} not found.");
             }
 
             wallet.Balance += walletAmount.Amount;
