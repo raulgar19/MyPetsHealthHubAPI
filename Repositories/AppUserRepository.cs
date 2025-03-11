@@ -39,5 +39,11 @@ namespace MyPetsHealthHubApi.Repositories
         {
             return await _context.AppUsers.Where(u => u.Id == userId).Select(u => u.Vet).FirstOrDefaultAsync();
         }
+
+        public async Task UpdateUser(AppUser appUser)
+        {
+            _context.AppUsers.Update(appUser);
+            await _context.SaveChangesAsync();
+        }
     }
 }

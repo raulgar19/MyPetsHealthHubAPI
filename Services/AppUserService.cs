@@ -1,5 +1,4 @@
 ﻿using MyPetsHealthHubApi.Models;
-using MyPetsHealthHubApi.Models.RequestModels;
 using MyPetsHealthHubApi.Repositories.Interfaces;
 using MyPetsHealthHubApi.Services.Interfaces;
 
@@ -37,6 +36,11 @@ namespace MyPetsHealthHubApi.Services
         public async Task<Vet> GetVetByUserId(int userId)
         {
             return await _appUserRepository.GetVetByUserId(userId);
+        }
+
+        public async Task UpdateUser(AppUser appUser)
+        {
+            await _appUserRepository.UpdateUser(appUser);
         }
     }
 

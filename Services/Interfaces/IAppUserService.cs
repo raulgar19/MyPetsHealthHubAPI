@@ -10,5 +10,6 @@ namespace MyPetsHealthHubApi.Services.Interfaces
         Task<AppUser> GetUserByEmail(string email);
         Task CreateUser(AppUser user);
         Task<Vet> GetVetByUserId(int userId);
+        Task UpdateUser(AppUser appUser);
     }
 }

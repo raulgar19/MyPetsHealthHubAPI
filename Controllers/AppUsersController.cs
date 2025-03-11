@@ -86,6 +86,25 @@ namespace MyPetsHealthHubApi.Controllers
             return Ok(appUser);
         }
 
+        [HttpPost("confirmPassword")]
+        public async Task<ActionResult<AppUser>> GetUserByEmail(ConfirmPasswordModel confirmPasswordModel)
+        {
+            AppUser appUser = await _appUserService.GetUserById(confirmPasswordModel.UserId);
+            if (appUser == null)
+            {
+                return NotFound();
+            }
+
+            byte[] encryptedInputPassword = Encryption.EncryptPassword(confirmPasswordModel.Password, appUser.Salt);
+
+            if (!Encryption.CompareArrays(appUser.Password, encryptedInputPassword))
+            {
+                return Unauthorized(new { message = "Las credenciales son erróneas" });
+            }
+
+            return Ok(appUser);
+        }
+
         [HttpGet("getById/{id}")]
         public async Task<ActionResult<AppUser>> GetUserById(int id)
         {
@@ -106,6 +125,19 @@ namespace MyPetsHealthHubApi.Controllers
                 return NotFound();
             }
             return Ok(appUsers);
+        }
+
+        [HttpPut("updateUser/{id}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserModel updateUserModel)
+        {
+            AppUser appUser = await _appUserService.GetUserById(id);
+            appUser.Name = updateUserModel.Name;
+            appUser.Surnames = updateUserModel.Surnames;
+            appUser.Nickname = updateUserModel.Nickname;
+            appUser.Email = updateUserModel.Email;
+
+            await _appUserService.UpdateUser(appUser);
+            return Ok(new { message = "Usuario actualizado correctamente" });
         }
     }
 }
