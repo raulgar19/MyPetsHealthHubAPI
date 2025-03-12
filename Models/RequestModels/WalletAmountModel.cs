@@ -1,6 +1,6 @@
 ﻿namespace MyPetsHealthHubApi.Models.RequestModels
 {
-    public class WalletAmount
+    public class WalletAmountModel
     {
         public decimal Amount { get; set; }
     }

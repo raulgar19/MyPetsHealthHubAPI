@@ -32,7 +32,7 @@ namespace MyPetsHealthHubApi.Controllers
         }
 
         [HttpPut("addAmount/{userId}")]
-        public async Task<ActionResult<Wallet>> AddAmount(int userId, [FromBody] WalletAmount walletAmount)
+        public async Task<ActionResult<Wallet>> AddAmount(int userId, [FromBody] WalletAmountModel walletAmount)
         {
             if (userId <= 0)
             {

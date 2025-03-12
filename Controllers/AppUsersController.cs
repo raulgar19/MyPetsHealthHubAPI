@@ -128,7 +128,7 @@ namespace MyPetsHealthHubApi.Controllers
         }
 
         [HttpPut("updateUser/{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserModel updateUserModel)
+        public async Task<ActionResult> UpdateUser(int id, [FromBody] UpdateUserModel updateUserModel)
         {
             AppUser appUser = await _appUserService.GetUserById(id);
             appUser.Name = updateUserModel.Name;
@@ -138,6 +138,51 @@ namespace MyPetsHealthHubApi.Controllers
 
             await _appUserService.UpdateUser(appUser);
             return Ok(new { message = "Usuario actualizado correctamente" });
+        }
+
+        [HttpPut("changeBankAccount/{id}")]
+        public async Task<ActionResult> ChangeBankAccount(int id, [FromBody] ChangeBankAccountModel changeBankAccountModel)
+        {
+            AppUser appUser = await _appUserService.GetUserById(id);
+            appUser.Wallet.AccountNumber = changeBankAccountModel.BankAccount;
+
+            await _appUserService.UpdateUser(appUser);
+            return Ok(new { message = "Número de cuenta actualizado correctamente" });
+        }
+
+        [HttpPut("changeEmail/{id}")]
+        public async Task<ActionResult> ChangeEmail(int id, [FromBody] ChangeEmailModel changeEmailModel)
+        {
+            AppUser appUser = await _appUserService.GetUserById(id);
+            appUser.Email = changeEmailModel.Email;
+
+            await _appUserService.UpdateUser(appUser);
+            return Ok(new { message = "Correo actualizado correctamente" });
+        }
+
+        [HttpPut("changePassword/{id}")]
+        public async Task<ActionResult> ChangePassword(int id, [FromBody] ChangePasswordModel changePasswordModel)
+        {
+            AppUser appUser = await _appUserService.GetUserById(id);
+
+            if (appUser == null)
+            {
+                return NotFound(new { message = "Usuario no encontrado" });
+            }
+
+            try
+            {
+                byte[] newEncryptedPassword = Encryption.EncryptPassword(changePasswordModel.Password, appUser.Salt);
+                appUser.Password = newEncryptedPassword;
+
+                await _appUserService.UpdateUser(appUser);
+
+                return Ok(new { message = "Contraseña actualizada correctamente" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error al actualizar la contraseña", error = ex.Message });
+            }
         }
     }
 }

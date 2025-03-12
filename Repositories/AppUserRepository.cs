@@ -22,7 +22,7 @@ namespace MyPetsHealthHubApi.Repositories
 
         public async Task<AppUser> GetUserById(int id)
         {
-            return await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == id);
+            return await _context.AppUsers.Where(u => u.Id == id).Include(u => u.Wallet).FirstOrDefaultAsync();
         }
 
         public async Task<List<AppUser>> GetUsersByVetId(int id)

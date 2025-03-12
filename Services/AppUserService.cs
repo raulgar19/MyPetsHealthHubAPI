@@ -43,5 +43,4 @@ namespace MyPetsHealthHubApi.Services
             await _appUserRepository.UpdateUser(appUser);
         }
     }
-
 }
