@@ -14,7 +14,7 @@ namespace MyPetsHealthHubApi.Controllers
             _productService = productService;
         }
 
-        [HttpGet("ProductsByTypeId/{id}")]
+        [HttpGet("getProductsByTypeId/{id}")]
         public async Task<IActionResult> GetProductsByTypeIdAsync(int id)
         {
             if (id <= 0 || id > 3)
