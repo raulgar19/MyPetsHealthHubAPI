@@ -63,5 +63,44 @@ namespace MyPetsHealthHubApi.Controllers
 
             return Ok(wallet);
         }
+
+        [HttpPut("deductAmount/{userId}")]
+        public async Task<ActionResult<Wallet>> DeductAmount(int userId, [FromBody] WalletAmountModel walletAmount)
+        {
+            if (userId <= 0)
+            {
+                return BadRequest("Invalid user ID.");
+            }
+
+            if (walletAmount.Amount <= 0)
+            {
+                return BadRequest("Amount must be greater than zero.");
+            }
+
+            Wallet wallet = await _walletService.GetWalletByUserId(userId);
+            if (wallet == null)
+            {
+                return NotFound($"AppUser with ID {userId} not found.");
+            }
+
+            if (wallet.Balance < walletAmount.Amount)
+            {
+                return BadRequest("Insufficient funds.");
+            }
+
+            wallet.Balance -= walletAmount.Amount;
+
+            try
+            {
+                await _walletService.UpdateWallet(wallet);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while updating the wallet: {ex.Message}");
+            }
+
+            return Ok(wallet);
+        }
+
     }
 }
