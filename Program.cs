@@ -39,6 +39,8 @@ builder.Services.AddScoped<IScheduledQueryRepository, ScheduledQueryRepository>(
 builder.Services.AddScoped<IScheduledQueryService, ScheduledQueryService>();
 builder.Services.AddScoped<IPetCardRepository, PetCardRepository>();
 builder.Services.AddScoped<IPetCardService, PetCardService>();
+builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<IPostService, PostService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
