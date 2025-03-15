@@ -20,6 +20,15 @@ namespace MyPetsHealthHubApi.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<Post>> GetCommunityPosts(int id)
+        {
+            return await _context.Posts
+             .Include(p => p.AppUser)
+             .Where(p => p.AppUserId != id)
+             .OrderByDescending(p => p.PostDate)
+             .ToListAsync();
+        }
+
         public async Task<List<Post>> GetUserPosts(int id)
         {
             return await _context.Posts

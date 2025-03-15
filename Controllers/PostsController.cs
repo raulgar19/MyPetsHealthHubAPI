@@ -57,5 +57,18 @@ namespace MyPetsHealthHubApi.Controllers
 
             return Ok(posts);
         }
+
+        [HttpGet("getCommunityPosts/{id}")]
+        public async Task<ActionResult<List<Post>>> GetCommunityPosts(int id)
+        {
+            List<Post> posts = await _postService.GetCommunityPosts(id);
+
+            if (posts == null || posts.Count == 0)
+            {
+                return NotFound("No se han encontrado posts");
+            }
+
+            return Ok(posts);
+        }
     }
 }
