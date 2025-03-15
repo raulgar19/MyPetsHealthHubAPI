@@ -1,4 +1,5 @@
-﻿using MyPetsHealthHubApi.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MyPetsHealthHubApi.Data;
 using MyPetsHealthHubApi.Models;
 using MyPetsHealthHubApi.Repositories.Interfaces;
 
@@ -17,6 +18,14 @@ namespace MyPetsHealthHubApi.Repositories
         {
             _context.Posts.AddAsync(post);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Post>> GetUserPosts(int id)
+        {
+            return await _context.Posts
+             .Where(p => p.AppUserId == id)
+             .OrderByDescending(p => p.PostDate)
+             .ToListAsync();
         }
     }
 }

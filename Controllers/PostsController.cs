@@ -29,6 +29,7 @@ namespace MyPetsHealthHubApi.Controllers
             {
                 Description = registerPostModel.Description,
                 Image = registerPostModel.ImageUrl,
+                PostDate = DateTime.Now,
                 AppUserId = registerPostModel.UserId
             };
 
@@ -42,6 +43,19 @@ namespace MyPetsHealthHubApi.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet("getUserPosts/{id}")]
+        public async Task<ActionResult<List<Post>>> GetUserPosts(int id)
+        {
+            List<Post> posts = await _postService.GetUserPosts(id);
+
+            if (posts == null || posts.Count == 0)
+            {
+                return NotFound("No se han encontrado posts para ese usuario");
+            }
+
+            return Ok(posts);
         }
     }
 }

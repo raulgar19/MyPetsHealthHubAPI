@@ -17,5 +17,10 @@ namespace MyPetsHealthHubApi.Services
         {
             await _postRepository.AddPost(post);
         }
+
+        public async Task<List<Post>> GetUserPosts(int id)
+        {
+            return await _postRepository.GetUserPosts(id);
+        }
     }
 }
