@@ -8,6 +8,8 @@ namespace MyPetsHealthHubApi.Repositories.Interfaces
         Task<ScheduledQuery> GetScheduledQueriesById(int id);
         Task<List<ScheduledQuery>> GetScheduledQueriesByVetAndPetId(int petId, int vetId);
         Task<List<ScheduledQuery>> GetScheduledQueriesByVetId(int id);
+        Task<List<ScheduledQuery>> GetScheduledQueriesByPetId(int id);
+        Task DeleteScheduledQueries(List<ScheduledQuery> scheduledQueries);
         Task RemoveScheduledQuery(ScheduledQuery query);
     }
 }

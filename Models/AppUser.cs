@@ -11,9 +11,9 @@
         public string Email { get; set; }
         public byte[] Password { get; set; }
         public string Salt { get; set; }
-        public int? WalletId { get; set; }
-        public Wallet Wallet { get; set; }
-        public int? VetId { get; set; }
-        public Vet Vet { get; set; }
+        public int WalletId { get; set; }
+        public Wallet? Wallet { get; set; }
+        public int VetId { get; set; }
+        public Vet? Vet { get; set; }
     }
 }

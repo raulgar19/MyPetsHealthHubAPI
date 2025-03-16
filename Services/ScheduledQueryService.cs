@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyPetsHealthHubApi.Models;
+﻿using MyPetsHealthHubApi.Models;
 using MyPetsHealthHubApi.Repositories.Interfaces;
 using MyPetsHealthHubApi.Services.Interfaces;
 
@@ -17,6 +16,27 @@ namespace MyPetsHealthHubApi.Services
         public async Task AddScheduledQuery(ScheduledQuery scheduledQuery)
         {
             await _scheduledQueryRepository.AddScheduledQuery(scheduledQuery);
+        }
+
+        public async Task<List<ScheduledQuery>> GetScheduledQueriesByPetId(List<Pet> pets)
+        {
+            List<ScheduledQuery> scheduledQueries = new List<ScheduledQuery>();
+
+            foreach (Pet pet in pets)
+            {
+                List<ScheduledQuery> petQueries = await _scheduledQueryRepository.GetScheduledQueriesByPetId(pet.Id);
+
+                foreach (ScheduledQuery scheduledQuery in petQueries)
+                {
+                    scheduledQueries.Add(scheduledQuery);
+                }
+            }
+            return scheduledQueries;
+        }
+
+        public async Task<List<ScheduledQuery>> GetScheduledQueriesByPetId(Pet pet)
+        {
+            return await _scheduledQueryRepository.GetScheduledQueriesByPetId(pet.Id);
         }
 
         public async Task<List<ScheduledQuery>> GetScheduledQueriesByVetAndPetId(int petId, int vetId)
@@ -37,6 +57,11 @@ namespace MyPetsHealthHubApi.Services
         public async Task RemoveScheduledQuery(ScheduledQuery query)
         {
             await _scheduledQueryRepository.RemoveScheduledQuery(query);
+        }
+
+        public async Task DeleteScheduledQueries(List<ScheduledQuery> scheduledQueries)
+        {
+            await _scheduledQueryRepository.DeleteScheduledQueries(scheduledQueries);
         }
     }
 }

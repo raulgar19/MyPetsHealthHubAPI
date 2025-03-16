@@ -13,12 +13,14 @@ namespace MyPetsHealthHubApi.Controllers
         private readonly IPetService _petService;
         private readonly IPetCardService _petCardService;
         private readonly IAppUserService _appUserService;
+        private readonly IScheduledQueryService _scheduledQueryService;
 
-        public PetsController(IPetService petService, IPetCardService petCardService, IAppUserService appUserService)
+        public PetsController(IPetService petService, IPetCardService petCardService, IAppUserService appUserService, IScheduledQueryService scheduledQueryService)
         {
             _petService = petService;
             _petCardService = petCardService;
             _appUserService = appUserService;
+            _scheduledQueryService = scheduledQueryService;
         }
 
         [HttpPost("addPet")]
@@ -113,6 +115,8 @@ namespace MyPetsHealthHubApi.Controllers
             }
 
             PetCard petCard = pet.PetCard;
+
+            List<ScheduledQuery> scheduledQueries = await _scheduledQueryService.GetScheduledQueriesByPetId(pet);
 
             await _petService.DeletePet(pet);
 

@@ -42,5 +42,10 @@ namespace MyPetsHealthHubApi.Services
         {
             await _appUserRepository.UpdateUser(appUser);
         }
+
+        public async Task DeleteUser(AppUser user)
+        {
+            await _appUserRepository.DeleteUser(user);
+        }
     }
 }

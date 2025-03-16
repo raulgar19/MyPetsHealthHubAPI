@@ -23,9 +23,19 @@ namespace MyPetsHealthHubApi.Services
             return await _walletRepository.GetWalletByUserId(id);
         }
 
+        public async Task<Wallet> GetWalletById(int walletId)
+        {
+            return await _walletRepository.GetWalletById(walletId);
+        }
+
         public async Task UpdateWallet(Wallet wallet)
         {
             await _walletRepository.UpdateWalletAsync(wallet);
+        }
+
+        public async Task DeleteWallet(Wallet wallet)
+        {
+            await _walletRepository.DeleteWallet(wallet);
         }
     }
 }

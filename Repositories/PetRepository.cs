@@ -40,5 +40,15 @@ namespace MyPetsHealthHubApi.Repositories
             _context.Pets.Remove(pet);
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteUserPets(List<Pet> pets)
+        {
+            foreach (Pet pet in pets)
+            {
+                _context.Pets.Remove(pet);
+            }
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

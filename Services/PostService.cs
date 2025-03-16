@@ -27,5 +27,10 @@ namespace MyPetsHealthHubApi.Services
         {
             return await _postRepository.GetUserPosts(id);
         }
+
+        public async Task DeleteUserPosts(List<Post> posts)
+        {
+            await _postRepository.DeleteUserPosts(posts);
+        }
     }
 }

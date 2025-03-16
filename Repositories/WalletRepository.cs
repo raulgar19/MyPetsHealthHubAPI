@@ -21,6 +21,11 @@ namespace MyPetsHealthHubApi.Repositories
             return wallet;
         }
 
+        public async Task<Wallet> GetWalletById(int id)
+        {
+            return await _context.Wallets.FirstOrDefaultAsync(w => w.Id == id);
+        }
+
         public async Task<Wallet> GetWalletByUserId(int id)
         {
             return await _context.AppUsers.Where(a => a.Id == id).Select(a => a.Wallet).FirstOrDefaultAsync();
@@ -29,6 +34,12 @@ namespace MyPetsHealthHubApi.Repositories
         public async Task UpdateWalletAsync(Wallet wallet)
         {
             _context.Wallets.Update(wallet);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteWallet(Wallet wallet)
+        {
+            _context.Wallets.Remove(wallet);
             await _context.SaveChangesAsync();
         }
     }

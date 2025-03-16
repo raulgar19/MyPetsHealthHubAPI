@@ -44,9 +44,24 @@ namespace MyPetsHealthHubApi.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<ScheduledQuery>> GetScheduledQueriesByPetId(int id)
+        {
+            return await _context.ScheduledQueries.Where(s => s.PetId == id).ToListAsync();
+        }
+
         public async Task RemoveScheduledQuery(ScheduledQuery query)
         {
             _context.ScheduledQueries.Remove(query);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteScheduledQueries(List<ScheduledQuery> scheduledQueries)
+        {
+            foreach (ScheduledQuery query in scheduledQueries)
+            {
+                _context.Remove(query);
+            }
+
             await _context.SaveChangesAsync();
         }
     }

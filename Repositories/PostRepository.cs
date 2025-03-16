@@ -36,5 +36,15 @@ namespace MyPetsHealthHubApi.Repositories
              .OrderByDescending(p => p.PostDate)
              .ToListAsync();
         }
+
+        public async Task DeleteUserPosts(List<Post> posts)
+        {
+            foreach(Post post in posts)
+            {
+                _context.Posts.Remove(post);
+            }
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -12,11 +12,17 @@ namespace MyPetsHealthHubApi.Controllers
     {
         private readonly IAppUserService _appUserService;
         private readonly IWalletService _walletService;
+        private readonly IPostService _postService;
+        private readonly IPetService _petService;
+        private readonly IScheduledQueryService _scheduledQueryService;
 
-        public AppUsersController(IAppUserService appUserService, IWalletService walletService)
+        public AppUsersController(IAppUserService appUserService, IWalletService walletService, IPostService postService, IPetService petService, IScheduledQueryService scheduledQueryService)
         {
             _appUserService = appUserService;
             _walletService = walletService;
+            _postService = postService;
+            _petService = petService;
+            _scheduledQueryService = scheduledQueryService;
         }
 
         [HttpPost("addUser")]
@@ -183,6 +189,37 @@ namespace MyPetsHealthHubApi.Controllers
             {
                 return StatusCode(500, new { message = "Error al actualizar la contraseña", error = ex.Message });
             }
+        }
+
+        [HttpDelete("deleteUser/{id}")]
+        public async Task<ActionResult> DeleteUser(int id)
+        {
+            List<Post> posts = await _postService.GetUserPosts(id);
+            if (posts != null || posts.Count > 0)
+            {
+                await _postService.DeleteUserPosts(posts);
+            }
+
+            List<Pet> pets = await _petService.GetPetsByUserId(id);
+
+            List<ScheduledQuery> scheduledQueries = await _scheduledQueryService.GetScheduledQueriesByPetId(pets);
+            if (scheduledQueries != null || scheduledQueries.Count > 0)
+            {
+                await _scheduledQueryService.DeleteScheduledQueries(scheduledQueries);
+            }
+
+            if (pets != null | pets.Count > 0)
+            {
+                await _petService.DeleteUserPets(pets);
+            }
+
+            AppUser user = await _appUserService.GetUserById(id);
+            await _appUserService.DeleteUser(user);
+
+            Wallet wallet = await _walletService.GetWalletById(user.WalletId);
+            await _walletService.DeleteWallet(wallet);
+
+            return Ok("Usuario eliminado correctamente");
         }
     }
 }
