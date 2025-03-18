@@ -40,6 +40,14 @@ namespace MyPetsHealthHubApi.Controllers
             return Ok();
         }
 
+        [HttpGet("getQueryById/{id}")]
+        public async Task<ActionResult<ScheduledQuery>> getQueryById(int id)
+        {
+            ScheduledQuery scheduledQuery = await _scheduledQueryService.GetScheduledQueryById(id);
+
+            return Ok(scheduledQuery);
+        }
+
         [HttpGet("getByVetId/{id}")]
         public async Task<ActionResult<List<Pet>>> GetPetsByVetId(int id)
         {
@@ -60,6 +68,17 @@ namespace MyPetsHealthHubApi.Controllers
             if (scheduledQueries == null || scheduledQueries.Count == 0)
             {
                 return NotFound(new { message = "No se encontraron consultas para la mascota especificada." });
+            }
+            return Ok(scheduledQueries);
+        }
+
+        [HttpGet("getUserPetsQueries/{id}")]
+        public async Task<ActionResult<List<ScheduledQuery>>> GetUserPetsQueries(int id)
+        {
+            List<ScheduledQuery> scheduledQueries = await _scheduledQueryService.GetScheduledQueriesByUserId(id);
+            if (scheduledQueries == null || scheduledQueries.Count == 0)
+            {
+                return NotFound(new { message = "No se encontraron consultas para las mascotas del usuario especificado." });
             }
             return Ok(scheduledQueries);
         }

@@ -9,6 +9,7 @@ namespace MyPetsHealthHubApi.Services.Interfaces
         Task DeleteScheduledQueries(List<ScheduledQuery> scheduledQueries);
         Task<List<ScheduledQuery>> GetScheduledQueriesByPetId(List<Pet> pets);
         Task<List<ScheduledQuery>> GetScheduledQueriesByPetId(Pet pet);
+        Task<List<ScheduledQuery>> GetScheduledQueriesByUserId(int userId);
         Task<List<ScheduledQuery>> GetScheduledQueriesByVetAndPetId(int petId, int vetId);
         Task<List<ScheduledQuery>> GetScheduledQueriesByVetId(int id);
         Task<ScheduledQuery> GetScheduledQueryById(int id);

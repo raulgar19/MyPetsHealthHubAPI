@@ -20,9 +20,9 @@ namespace MyPetsHealthHubApi.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<ScheduledQuery> GetScheduledQueriesById(int id)
+        public async Task<ScheduledQuery> GetScheduledQueryById(int id)
         {
-            return await _context.ScheduledQueries.FirstOrDefaultAsync(s => s.Id == id);
+            return await _context.ScheduledQueries.Include(s => s.Vet).Include(s => s.Pet).FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public Task<List<ScheduledQuery>> GetScheduledQueriesByVetAndPetId(int petId, int vetId)
@@ -47,6 +47,15 @@ namespace MyPetsHealthHubApi.Repositories
         public async Task<List<ScheduledQuery>> GetScheduledQueriesByPetId(int id)
         {
             return await _context.ScheduledQueries.Where(s => s.PetId == id).ToListAsync();
+        }
+
+        public async Task<List<ScheduledQuery>> GetScheduledQueriesByUserId(int userId)
+        {
+            return await _context.ScheduledQueries
+            .Where(s => s.Pet.AppUserId == userId)
+            .Include(s => s.Vet)
+            .Include(s => s.Pet)
+            .ToListAsync();
         }
 
         public async Task RemoveScheduledQuery(ScheduledQuery query)

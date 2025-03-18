@@ -126,11 +126,26 @@ namespace MyPetsHealthHubApi.Controllers
         public async Task<ActionResult<List<AppUser>>> GetUserByVetId(int id)
         {
             List<AppUser> appUsers = await _appUserService.GetUsersByVetId(id);
+
             if (appUsers == null)
             {
                 return NotFound();
             }
+
             return Ok(appUsers);
+        }
+
+        [HttpGet("getVetByUserId/{id}")]
+        public async Task<ActionResult<Vet>> getVetByUserId(int id)
+        {
+            Vet vet = await _appUserService.GetVetByUserId(id);
+
+            if (vet == null) 
+            {
+                return NotFound();
+            }
+
+            return Ok(vet);
         }
 
         [HttpPut("updateUser/{id}")]
@@ -140,7 +155,6 @@ namespace MyPetsHealthHubApi.Controllers
             appUser.Name = updateUserModel.Name;
             appUser.Surnames = updateUserModel.Surnames;
             appUser.Nickname = updateUserModel.Nickname;
-            appUser.Email = updateUserModel.Email;
 
             await _appUserService.UpdateUser(appUser);
             return Ok(new { message = "Usuario actualizado correctamente" });

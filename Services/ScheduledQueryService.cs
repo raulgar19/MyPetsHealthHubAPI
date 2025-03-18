@@ -51,7 +51,12 @@ namespace MyPetsHealthHubApi.Services
 
         public async Task<ScheduledQuery> GetScheduledQueryById(int id)
         {
-            return await _scheduledQueryRepository.GetScheduledQueriesById(id);
+            return await _scheduledQueryRepository.GetScheduledQueryById(id);
+        }
+
+        public async Task<List<ScheduledQuery>> GetScheduledQueriesByUserId(int userId)
+        {
+            return await _scheduledQueryRepository.GetScheduledQueriesByUserId(userId);
         }
 
         public async Task RemoveScheduledQuery(ScheduledQuery query)
