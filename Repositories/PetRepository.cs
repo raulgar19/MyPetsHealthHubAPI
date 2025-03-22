@@ -35,6 +35,16 @@ namespace MyPetsHealthHubApi.Repositories
             return await _context.Pets.Where(p => p.VetId == id).ToListAsync();
         }
 
+        public async Task UpdatePets(List<Pet> pets)
+        {
+            foreach (Pet pet in pets)
+            {
+                _context.Pets.Update(pet);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task DeletePet(Pet pet)
         {
             _context.Pets.Remove(pet);

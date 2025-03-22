@@ -11,5 +11,6 @@ namespace MyPetsHealthHubApi.Services.Interfaces
         Task<Pet> GetPetById(int id);
         Task<List<Pet>> GetPetsByUserId(int id);
         Task<List<Pet>> GetPetsByVetId(int id);
+        Task UpdatePets(List<Pet> pets);
     }
 }

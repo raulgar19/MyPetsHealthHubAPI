@@ -3,6 +3,7 @@ using MyPetsHealthHubApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using MyPetsHealthHubApi.Models.RequestModels;
 using MyPetsHealthHubApi.Helpers;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MyPetsHealthHubApi.Controllers
 {
@@ -158,6 +159,30 @@ namespace MyPetsHealthHubApi.Controllers
 
             await _appUserService.UpdateUser(appUser);
             return Ok(new { message = "Usuario actualizado correctamente" });
+        }
+
+        [HttpPut("changeVet")]
+        public async Task<ActionResult> changeVet(ChangeVetModel changeVetModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Id de usuario o Id del veterinario incorrecto");
+            }
+
+            AppUser appUser = await _appUserService.GetUserById(changeVetModel.UserId);
+            List<Pet> pets = await _petService.GetPetsByUserId(changeVetModel.UserId);
+
+            appUser.VetId = changeVetModel.VetId;
+
+            foreach(Pet pet in pets)
+            {
+                pet.VetId = changeVetModel.VetId;
+            }
+
+            await _appUserService.UpdateUser(appUser);
+            await _petService.UpdatePets(pets);
+
+            return Ok();
         }
 
         [HttpPut("changeBankAccount/{id}")]
